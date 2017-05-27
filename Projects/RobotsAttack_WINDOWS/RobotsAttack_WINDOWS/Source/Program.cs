@@ -6,6 +6,7 @@ namespace RobotsAttack_WINDOWS
 {
     ///------------------------------------------------------------------------
     using World;
+    using GameObject;
     ///------------------------------------------------------------------------
 
 
@@ -45,7 +46,7 @@ namespace RobotsAttack_WINDOWS
             mGraphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            mWorld = new AWorld(800, 600);
+            mWorld = new AWorld(1024, 720);
         }
         ///------------------------------------------------------------------------
 
@@ -64,9 +65,43 @@ namespace RobotsAttack_WINDOWS
         {
 
             base.Initialize();
+
+            int wd = 1024;
+            int hd = 720;
+
+
+            mGraphics.PreferredBackBufferWidth = wd;
+            mGraphics.PreferredBackBufferHeight = hd;
+            mGraphics.ApplyChanges();
+
         }
         ///------------------------------------------------------------------------
 
+
+
+
+
+        ///-----------------------------------------------------------------------
+        ///
+        /// <summary>
+        /// Загруза игровых ресурсов
+        /// </summary>
+        ///
+        ///------------------------------------------------------------------------
+        protected override void LoadContent()
+        {
+            mSpriteBatch = new SpriteBatch(GraphicsDevice);
+
+            loadTexture("robot_1");
+
+
+            //создаем роботов
+            var robot = new ARobot("robot_1");
+            
+            mWorld.append(robot);
+            mWorld.append(new APlayer(robot));
+        }
+        ///------------------------------------------------------------------------
 
 
 
@@ -78,12 +113,10 @@ namespace RobotsAttack_WINDOWS
         /// </summary>
         ///
         ///------------------------------------------------------------------------
-        protected override void LoadContent()
+        private void loadTexture(string name)
         {
-            mSpriteBatch = new SpriteBatch(GraphicsDevice);
-
-            
-
+            var sprite = Content.Load<Texture2D>(name);
+            mWorld.sprites[name] = sprite;
         }
         ///------------------------------------------------------------------------
 
@@ -91,7 +124,7 @@ namespace RobotsAttack_WINDOWS
 
 
 
-         ///-----------------------------------------------------------------------
+        ///-----------------------------------------------------------------------
         ///
         /// <summary>
         /// Выгрузка игровых ресурсов
@@ -140,7 +173,7 @@ namespace RobotsAttack_WINDOWS
         ///------------------------------------------------------------------------
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
             var time = gameTime.ElapsedGameTime;
             mWorld.draw(mSpriteBatch, time);

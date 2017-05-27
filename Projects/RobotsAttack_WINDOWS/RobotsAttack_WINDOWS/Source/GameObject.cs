@@ -77,7 +77,7 @@ namespace GameObject
         /// </summary>
         ///
         ///--------------------------------------------------------------------
-        public virtual void render(SpriteBatch spriteBatch, TimeSpan time)
+        public virtual void render(SpriteBatch spriteBatch, TimeSpan time, float depth)
         {
 
         }

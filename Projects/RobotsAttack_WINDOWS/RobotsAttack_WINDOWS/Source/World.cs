@@ -39,6 +39,10 @@ namespace World
         ///--------------------------------------------------------------------
 
 
+        ///--------------------------------------------------------------------
+        public readonly Dictionary<string, Texture2D> sprites = new Dictionary<string, Texture2D>();
+        ///--------------------------------------------------------------------
+
 
 
 
@@ -73,9 +77,11 @@ namespace World
         {
             mLook = true;
             spriteBatch.Begin();
+            float depth = 0.01f;
             foreach (var obj in mObjects)
             {
-                obj.render(spriteBatch, time);
+                obj.render(spriteBatch, time, depth);
+                depth += 0.005f;
             }
             spriteBatch.End();
             mLook = false;
